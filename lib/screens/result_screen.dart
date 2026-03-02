@@ -3,8 +3,14 @@ import 'dart:io';
 
 class ResultScreen extends StatelessWidget {
   final String imagePath;
+  final String label;      
+  final String confidence;
 
-  const ResultScreen({super.key, required this.imagePath});
+  const ResultScreen({
+    super.key, 
+    required this.imagePath,
+    required this.label,
+    required this.confidence,});
 
   @override
   Widget build(BuildContext context) {

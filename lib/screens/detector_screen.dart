@@ -64,13 +64,16 @@ class _DetectorScreenState extends State<DetectorScreen> {
 
       final XFile image = await controller!.takePicture();
 
+      // Jalankan prediksi model YOLOv8 pada foto yang baru diambil
+      final result = await tfliteService.predict(image.path);
+
       if (!mounted) return;
 
       // Pindah ke ResultScreen sambil membawa path gambarnya
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ResultScreen(imagePath: image.path),
+          builder: (context) => ResultScreen(imagePath: image.path, label: result["label"], confidence: result["confidence"].toStringAsFixed(2)),
         ),
       );
 

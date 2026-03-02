@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hama_cabai_detect/screens/home_page.dart'; // Pastikan path ini benar
+import 'package:hama_cabai_detect/services/tflite_service.dart'; // Import TfliteService untuk digunakan di DetectorScreen
 
 // 1. Variabel global untuk menampung daftar kamera HP
 List<CameraDescription> cameras = [];
 
+TfliteService tfliteService = TfliteService();
 Future<void> main() async {
   // 2. Pastikan inisialisasi binding Flutter sudah siap
   WidgetsFlutterBinding.ensureInitialized();

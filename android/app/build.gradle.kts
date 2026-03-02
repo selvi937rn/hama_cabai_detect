@@ -20,6 +20,7 @@ android {
     }
 
     defaultConfig {
+        minSdkVersion = 26
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.hama_cabai_detect"
         // You can update the following values to match your application needs.
