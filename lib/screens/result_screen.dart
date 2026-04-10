@@ -3,8 +3,14 @@ import 'dart:io';
 
 class ResultScreen extends StatelessWidget {
   final String imagePath;
+  final String label;      
+  final String confidence;
 
-  const ResultScreen({super.key, required this.imagePath});
+  const ResultScreen({
+    super.key, 
+    required this.imagePath,
+    required this.label,
+    required this.confidence,});
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +60,8 @@ class ResultScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      const Text(
-                        "Kutu Daun (Aphis Gossypii)",
+                      Text(
+                        label,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -65,10 +71,10 @@ class ResultScreen extends StatelessWidget {
                       const Divider(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
+                        children: [
                           Text("Tingkat Akurasi", style: TextStyle(fontSize: 16)),
                           Text(
-                            "98.5%",
+                            "$confidence%",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
