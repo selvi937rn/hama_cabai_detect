@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../main.dart'; // Import variabel 'cameras' dari main.dart
 import 'result_screen.dart'; // Pastikan sudah membuat file ini
+import 'package:image_picker/image_picker.dart';
+
 
 class DetectorScreen extends StatefulWidget {
   const DetectorScreen({super.key});
@@ -13,6 +15,36 @@ class DetectorScreen extends StatefulWidget {
 class _DetectorScreenState extends State<DetectorScreen> {
   CameraController? controller;
   int selectedCameraIndex = 0; // 0 = Kamera Belakang, 1 = Kamera Depan
+
+  final ImagePicker _picker = ImagePicker(); // Instance untuk ambil gambar
+
+  Future<void> pickImageFromGallery() async {
+  try {
+    // 1. Buka Galeri dan pilih gambar
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    
+    if (pickedFile == null) return; // User batal pilih gambar
+
+    // 2. Jalankan prediksi model YOLOv8 pada foto tersebut
+    final result = await tfliteService.predict(pickedFile.path);
+
+    if (!mounted) return;
+
+    // 3. Langsung pindah ke ResultScreen membawa data asli deteksi
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultScreen(
+          imagePath: pickedFile.path,
+          label: result['label'],        // Hasil dari TfliteService
+          confidence: result['confidence'].toString(), // Akurasi dari TfliteService
+        ),
+      ),
+    );
+  } catch (e) {
+    debugPrint("Gagal mengambil gambar dari galeri: $e");
+  }
+}
 
   @override
   void initState() {
@@ -167,6 +199,7 @@ class _DetectorScreenState extends State<DetectorScreen> {
                     size: 32,
                   ),
                   onPressed: () {
+                      pickImageFromGallery();
                     // TODO: Implementasi ambil dari galeri
                   },
                 ),
